@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "aquachain-front",
+    "slug": "aquachain-front",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "permissions": [
+      "CAMERA",
+      "CAMERA_ROLL",
+      "LOCATION"
+    ],
+    "icon": "./assets/images/app-logo.jpg",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/images/app-logo.jpg",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/app-logo.jpg",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "output": "single"
+    }
+  }
+}

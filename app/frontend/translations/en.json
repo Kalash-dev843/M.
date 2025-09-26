@@ -1,0 +1,16 @@
+{
+  "appName": "AquaChain",
+  "fieldDataCollection": "Field Data Collection",
+  "continue": "Continue",
+  "helloAgent": "Hello, Field Agent 👋",
+  "whatWouldYouLike": "What would you like to do today?",
+  "createNewReport": "+ Create New Report",
+  "viewSavedReports": "View Saved Reports",
+  "projectName": "Project Name",
+  "enterProjectName": "Enter project name",
+  "addPhoto": "Add Photo",
+  "getGpsLocation": "Get GPS Location",
+  "submit": "Submit",
+  "validationProjectName": "Please enter Project Name.",
+  "validationPhotos": "Please take at least 3 photos."
+}
