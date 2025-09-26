@@ -8,6 +8,7 @@ verification_service = AquaChainVerificationService()
 from fastapi import FastAPI, UploadFile, File, Form, Depends
 from fastapi import BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
+from typing import List
 import json
 import os
 import uuid
@@ -23,11 +24,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 load_dotenv()
 
 # Configure Cloudinary
-cloudinary.config(
-    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.getenv("CLOUDINARY_API_KEY"),
-    api_secret=os.getenv("CLOUDINARY_API_SECRET")
-)
+# cloudinary.config(
+#     cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+#     api_key=os.getenv("CLOUDINARY_API_KEY"),
+#     api_secret=os.getenv("CLOUDINARY_API_SECRET")
+# )
 
 # Database setup with connection pooling
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./reports.db")
@@ -42,10 +43,11 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+
 # Database model
 class Report(Base):
     __tablename__ = "reports"
-    
+
     id = Column(String, primary_key=True)
     project_name = Column(String, nullable=False)
     photos = Column(Text)
@@ -53,14 +55,28 @@ class Report(Base):
     submitted_at = Column(DateTime, default=datetime.datetime.now)
     status = Column(String, default="Pending")
 
+
 class User(Base):
     __tablename__ = "users"
-    
+
     id = Column(String, primary_key=True)
     email = Column(String, nullable=False, unique=True)
     username = Column(String, nullable=False)
     password = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.now)
+
+class VerificationResult(Base):
+    __tablename__ = "verification_results"
+
+    id = Column(String, primary_key=True)
+    report_id = Column(String, nullable=False)  # Links to your existing reports
+    verification_status = Column(String, nullable=False)  # APPROVED, REJECTED, ERROR
+    verification_score = Column(String, nullable=True)  # Store as string for JSON compatibility
+    total_photos = Column(String, nullable=True)
+    verified_photos = Column(String, nullable=True)
+    rejected_photos = Column(String, nullable=True)
+    detailed_results = Column(Text, nullable=True)  # Store full JSON result
+    verified_at = Column(DateTime, default=datetime.datetime.now)
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -81,6 +97,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+
 # Database helper functions with dependency injection
 def get_db():
     """Dependency to get database session"""
@@ -90,9 +107,11 @@ def get_db():
     finally:
         db.close()
 
+
 @app.get("/")
 def root():
     return {"message": "FastAPI backend is running on Render"}
+
 
 @app.get("/api/reports")
 async def get_reports(db: Session = Depends(get_db)):
@@ -109,27 +128,29 @@ async def get_reports(db: Session = Depends(get_db)):
         })
     return {"success": True, "reports": result}
 
+
 @app.post("/api/reports")
 async def upload_report(
-    background_tasks: BackgroundTasks,  # Add this import: from fastapi import BackgroundTasks
-    projectName: str = Form(...),
-    gps: str = Form(...),
-    submittedAt: str = Form(...),
-    photos: list[UploadFile] = File(...),
-    db: Session = Depends(get_db)
+        background_tasks: BackgroundTasks,  # Add this import: from fastapi import BackgroundTasks
+        projectName: str = Form(...),
+        gps: str = Form(...),
+        submittedAt: str = Form(...),
+        photos: list[UploadFile] = File(...),
+        db: Session = Depends(get_db)
 ):
     print(f"Received report: {projectName}, GPS: {gps}")
-    
+
     try:
         # Generate unique ID for report
         report_id = str(uuid.uuid4())
-        
-        # Upload to Cloudinary (your existing code)
+
+        # Upload to Cloudinary (temporarily disabled for testing)
         photo_urls = []
         for photo in photos:
-            result = cloudinary.uploader.upload(photo.file)
-            photo_urls.append(result["secure_url"])
-        
+            # result = cloudinary.uploader.upload(photo.file)
+            # photo_urls.append(result["secure_url"])
+            photo_urls.append(f"dummy_url_{photo.filename}")  # For testing
+
         # Save to database (your existing code)
         new_report = Report(
             id=report_id,
@@ -140,7 +161,7 @@ async def upload_report(
         )
         db.add(new_report)
         db.commit()
-        
+
         # NEW: Start verification in background
         background_tasks.add_task(
             verify_report_async,
@@ -150,13 +171,14 @@ async def upload_report(
             gps=gps,
             db_session=db
         )
-        
+
         return {"success": True, "id": report_id, "photo_urls": photo_urls, "verification_started": True}
-        
+
     except Exception as e:
         print(f"Database error: {str(e)}")
         db.rollback()
         return {"success": False, "error": str(e)}
+
 
 # Add this new background task function
 async def verify_report_async(report_id: str, photo_urls: List[str], project_name: str, gps: str, db_session: Session):
@@ -171,7 +193,7 @@ async def verify_report_async(report_id: str, photo_urls: List[str], project_nam
             project_name=project_name,
             gps=gps
         )
-        
+
         # Save verification result to database
         verification_record = VerificationResult(
             id=str(uuid.uuid4()),
@@ -183,22 +205,23 @@ async def verify_report_async(report_id: str, photo_urls: List[str], project_nam
             rejected_photos=str(verification_result.get('rejected_photos', 0)),
             detailed_results=json.dumps(verification_result)
         )
-        
+
         db_session.add(verification_record)
         db_session.commit()
-        
+
         print(f"Verification completed for report {report_id}: {verification_result['status']}")
-        
+
     except Exception as e:
         print(f"Background verification failed for {report_id}: {e}")
 
+
 @app.post("/api/register")
-async def register(email: str = Form(...), username: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
-    
+async def register(email: str = Form(...), username: str = Form(...), password: str = Form(...),
+                   db: Session = Depends(get_db)):
     try:
         hashed_password = generate_password_hash(password, "pbkdf2:sha256", 8)
 
-        user_check = db.query(User).filter(User.email==email).first()
+        user_check = db.query(User).filter(User.email == email).first()
         if user_check:
             return {"success": False, "message": "User already exists"}
 
@@ -209,11 +232,12 @@ async def register(email: str = Form(...), username: str = Form(...), password: 
         return {"success": True, "message": "User registered successfully"}
     except Exception as e:
         return {"sucess": False, "message": f"Error: {e}"}
-    
+
+
 @app.post("/api/login")
 async def login(email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
     try:
-        user = db.query(User).filter(User.email==email).first()
+        user = db.query(User).filter(User.email == email).first()
 
         if user and check_password_hash(user.password, password):
             return {"success": True, "message": "Login successful", "username": user.username}
@@ -222,10 +246,12 @@ async def login(email: str = Form(...), password: str = Form(...), db: Session =
     except Exception as e:
         return {"sucess": False, "message": f"Error: {e}"}
 
+
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host='0.0.0.0', port=8000)
+    uvicorn.run(app, host='0.0.0.0', port=8001)
+
 
 @app.get("/api/reports/{report_id}/verification")
 async def get_report_verification(report_id: str, db: Session = Depends(get_db)):
@@ -233,10 +259,10 @@ async def get_report_verification(report_id: str, db: Session = Depends(get_db))
     Get verification status for a specific report
     """
     verification = db.query(VerificationResult).filter(VerificationResult.report_id == report_id).first()
-    
+
     if not verification:
         return {"success": False, "message": "Verification not found or still processing"}
-    
+
     return {
         "success": True,
         "verification": {
@@ -249,30 +275,32 @@ async def get_report_verification(report_id: str, db: Session = Depends(get_db))
         }
     }
 
+
 @app.get("/api/reports/{report_id}/verification/details")
 async def get_detailed_verification(report_id: str, db: Session = Depends(get_db)):
     """
     Get detailed verification results including HTML report
     """
     verification = db.query(VerificationResult).filter(VerificationResult.report_id == report_id).first()
-    
+
     if not verification:
         return {"success": False, "message": "Verification not found"}
-    
+
     try:
         detailed_results = json.loads(verification.detailed_results)
-        
+
         # Generate HTML report using your existing PhotoVerifier
         html_report = verification_service.verifier.generate_verification_report(detailed_results)
-        
+
         return {
             "success": True,
             "detailed_results": detailed_results,
             "html_report": html_report
         }
-        
+
     except Exception as e:
         return {"success": False, "error": str(e)}
+
 
 @app.get("/api/verification/summary")
 async def get_verification_summary(db: Session = Depends(get_db)):
@@ -281,10 +309,12 @@ async def get_verification_summary(db: Session = Depends(get_db)):
     """
     try:
         total_verifications = db.query(VerificationResult).count()
-        approved_count = db.query(VerificationResult).filter(VerificationResult.verification_status == "APPROVED").count()
-        rejected_count = db.query(VerificationResult).filter(VerificationResult.verification_status == "REJECTED").count()
+        approved_count = db.query(VerificationResult).filter(
+            VerificationResult.verification_status == "APPROVED").count()
+        rejected_count = db.query(VerificationResult).filter(
+            VerificationResult.verification_status == "REJECTED").count()
         pending_count = total_verifications - approved_count - rejected_count
-        
+
         return {
             "success": True,
             "summary": {
@@ -297,20 +327,3 @@ async def get_verification_summary(db: Session = Depends(get_db)):
         }
     except Exception as e:
         return {"success": False, "error": str(e)}
-
-# Add this new model after your existing Report and User models
-class VerificationResult(Base):
-    __tablename__ = "verification_results"
-    
-    id = Column(String, primary_key=True)
-    report_id = Column(String, nullable=False)  # Links to your existing reports
-    verification_status = Column(String, nullable=False)  # APPROVED, REJECTED, ERROR
-    verification_score = Column(String, nullable=True)  # Store as string for JSON compatibility
-    total_photos = Column(String, nullable=True)
-    verified_photos = Column(String, nullable=True)
-    rejected_photos = Column(String, nullable=True)
-    detailed_results = Column(Text, nullable=True)  # Store full JSON result
-    verified_at = Column(DateTime, default=datetime.datetime.now)
-
-# Add this line after Base.metadata.create_all(bind=engine)
-# It's already there, just make sure the new table gets created
