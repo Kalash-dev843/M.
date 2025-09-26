@@ -1,0 +1,393 @@
+{
+  "status": "REJECTED",
+  "verification_score": 0.0,
+  "total_photos": 5,
+  "verified_photos": 0,
+  "rejected_photos": 5,
+  "detailed_results": {
+    "verified": [],
+    "rejected": [
+      {
+        "path": "test_images\\Screenshot 2025-09-11 174250.png",
+        "filename": "Screenshot 2025-09-11 174250.png",
+        "is_valid": false,
+        "checks": {
+          "screen_detection": {
+            "is_screen": true,
+            "confidence": 1.0,
+            "pattern_score": 0.0009957296542662396,
+            "rectangular_edges": 33,
+            "reflection_score": 0.013652788043031945
+          },
+          "manipulation_detection": {
+            "is_manipulated": true,
+            "confidence": 0.4,
+            "ela_score": 1.9542067011579207,
+            "noise_consistency": 0.722790663095278,
+            "copy_paste_score": 0.4
+          },
+          "content_validation": {
+            "is_ecosystem": true,
+            "ecosystem_confidence": 1.0,
+            "vegetation_percentage": 0.4194382852919438,
+            "water_percentage": 0.032694834524102816,
+            "sand_percentage": 0.1334072431633407,
+            "has_faces": false,
+            "has_text": false,
+            "is_indoor": false
+          },
+          "quality_check": {
+            "quality_score": 0.7519672744408289,
+            "resolution": [
+              396,
+              246
+            ],
+            "resolution_ok": false,
+            "is_blurry": false,
+            "blur_score": 1.0,
+            "is_dark": false,
+            "brightness_score": 0.7743399684056492,
+            "contrast_score": 0.8711691293576664
+          },
+          "metadata_check": {
+            "validity_score": 0.0,
+            "checks": {
+              "has_exif": false,
+              "has_camera_info": false,
+              "has_timestamp": false,
+              "has_gps": false,
+              "timestamp_recent": false
+            }
+          },
+          "duplicate_check": {
+            "is_duplicate": false,
+            "hash": "1101111000011100"
+          }
+        },
+        "scores": {
+          "screen_score": 0.0,
+          "manipulation_score": 0.6,
+          "content_score": 1.0,
+          "quality_score": 0.7519672744408289,
+          "metadata_score": 0.0
+        },
+        "metadata": {
+          "has_exif": false,
+          "camera_make": null,
+          "camera_model": null,
+          "datetime": null,
+          "gps_latitude": null,
+          "gps_longitude": null,
+          "file_size": 193725
+        },
+        "authenticity_score": 0.46279509116612433,
+        "reason": "Failed screen check"
+      },
+      {
+        "path": "test_images\\Screenshot 2025-09-11 174318.png",
+        "filename": "Screenshot 2025-09-11 174318.png",
+        "is_valid": false,
+        "checks": {
+          "screen_detection": {
+            "is_screen": true,
+            "confidence": 1.0,
+            "pattern_score": 0.0009989265267175572,
+            "rectangular_edges": 3,
+            "reflection_score": 1.0
+          },
+          "manipulation_detection": {
+            "is_manipulated": true,
+            "confidence": 1.0,
+            "ela_score": 0.7788098361959288,
+            "noise_consistency": 0.36506010649710163,
+            "copy_paste_score": 1.0
+          },
+          "content_validation": {
+            "is_ecosystem": false,
+            "ecosystem_confidence": 0.487494036259542,
+            "vegetation_percentage": 0.0,
+            "water_percentage": 0.0,
+            "sand_percentage": 0.21873509064885496,
+            "has_faces": false,
+            "has_text": false,
+            "is_indoor": true
+          },
+          "quality_check": {
+            "quality_score": 0.7317910124405328,
+            "resolution": [
+              256,
+              262
+            ],
+            "resolution_ok": false,
+            "is_blurry": true,
+            "blur_score": 0.6794811525795538,
+            "is_dark": false,
+            "brightness_score": 1.0,
+            "contrast_score": 1.0
+          },
+          "metadata_check": {
+            "validity_score": 0.0,
+            "checks": {
+              "has_exif": false,
+              "has_camera_info": false,
+              "has_timestamp": false,
+              "has_gps": false,
+              "timestamp_recent": false
+            }
+          },
+          "duplicate_check": {
+            "is_duplicate": false,
+            "hash": "1111111111000000"
+          }
+        },
+        "scores": {
+          "screen_score": 0.0,
+          "manipulation_score": 0.0,
+          "content_score": 0.487494036259542,
+          "quality_score": 0.7317910124405328,
+          "metadata_score": 0.0
+        },
+        "metadata": {
+          "has_exif": false,
+          "camera_make": null,
+          "camera_model": null,
+          "datetime": null,
+          "gps_latitude": null,
+          "gps_longitude": null,
+          "file_size": 51974
+        },
+        "authenticity_score": 0.20726745911798833,
+        "reason": "Failed screen check"
+      },
+      {
+        "path": "test_images\\Screenshot 2025-09-11 174617.png",
+        "filename": "Screenshot 2025-09-11 174617.png",
+        "is_valid": false,
+        "checks": {
+          "screen_detection": {
+            "is_screen": true,
+            "confidence": 1.0,
+            "pattern_score": 0.0010059311981020166,
+            "rectangular_edges": 20,
+            "reflection_score": 1.0
+          },
+          "manipulation_detection": {
+            "is_manipulated": true,
+            "confidence": 1.0,
+            "ela_score": 1.1043890865954924,
+            "noise_consistency": 0.222338312026384,
+            "copy_paste_score": 1.0
+          },
+          "content_validation": {
+            "is_ecosystem": true,
+            "ecosystem_confidence": 0.9221902728351126,
+            "vegetation_percentage": 0.14700830367734283,
+            "water_percentage": 0.3329252669039146,
+            "sand_percentage": 0.012071174377224199,
+            "has_faces": false,
+            "has_text": false,
+            "is_indoor": false
+          },
+          "quality_check": {
+            "quality_score": 0.84390625,
+            "resolution": [
+              375,
+              281
+            ],
+            "resolution_ok": false,
+            "is_blurry": false,
+            "blur_score": 1.0,
+            "is_dark": false,
+            "brightness_score": 1.0,
+            "contrast_score": 1.0
+          },
+          "metadata_check": {
+            "validity_score": 0.0,
+            "checks": {
+              "has_exif": false,
+              "has_camera_info": false,
+              "has_timestamp": false,
+              "has_gps": false,
+              "timestamp_recent": false
+            }
+          },
+          "duplicate_check": {
+            "is_duplicate": false,
+            "hash": "0000010100001100"
+          }
+        },
+        "scores": {
+          "screen_score": 0.0,
+          "manipulation_score": 0.0,
+          "content_score": 0.9221902728351126,
+          "quality_score": 0.84390625,
+          "metadata_score": 0.0
+        },
+        "metadata": {
+          "has_exif": false,
+          "camera_make": null,
+          "camera_model": null,
+          "datetime": null,
+          "gps_latitude": null,
+          "gps_longitude": null,
+          "file_size": 143633
+        },
+        "authenticity_score": 0.3110239920670225,
+        "reason": "Failed screen check"
+      },
+      {
+        "path": "test_images\\WIN_20250911_18_07_20_Pro.jpg",
+        "filename": "WIN_20250911_18_07_20_Pro.jpg",
+        "is_valid": false,
+        "checks": {
+          "screen_detection": {
+            "is_screen": true,
+            "confidence": 1.0,
+            "pattern_score": 0.0010001627604166667,
+            "rectangular_edges": 27,
+            "reflection_score": 0.18949924045138888
+          },
+          "manipulation_detection": {
+            "is_manipulated": true,
+            "confidence": 1.0,
+            "ela_score": 0.6406200267650463,
+            "noise_consistency": -0.655794448968811,
+            "copy_paste_score": 1.0
+          },
+          "content_validation": {
+            "is_ecosystem": false,
+            "ecosystem_confidence": 0.4580961371527778,
+            "vegetation_percentage": 4.340277777777778e-05,
+            "water_percentage": 0.00047905815972222224,
+            "sand_percentage": 0.14443495008680557,
+            "has_faces": false,
+            "has_text": false,
+            "is_indoor": true
+          },
+          "quality_check": {
+            "quality_score": 0.815915131835934,
+            "resolution": [
+              2560,
+              1440
+            ],
+            "resolution_ok": true,
+            "is_blurry": true,
+            "blur_score": 0.38638377278644676,
+            "is_dark": false,
+            "brightness_score": 1.0,
+            "contrast_score": 1.0
+          },
+          "metadata_check": {
+            "validity_score": 0.7,
+            "checks": {
+              "has_exif": true,
+              "has_camera_info": true,
+              "has_timestamp": true,
+              "has_gps": false,
+              "timestamp_recent": false
+            }
+          },
+          "duplicate_check": {
+            "is_duplicate": false,
+            "hash": "0001110100111111"
+          }
+        },
+        "scores": {
+          "screen_score": 0.0,
+          "manipulation_score": 0.0,
+          "content_score": 0.4580961371527778,
+          "quality_score": 0.815915131835934,
+          "metadata_score": 0.7
+        },
+        "metadata": {
+          "has_exif": true,
+          "camera_make": "Intel Corporation",
+          "camera_model": "HI556",
+          "datetime": "2025:09:11 18:07:21",
+          "gps_latitude": null,
+          "gps_longitude": null,
+          "file_size": 859891
+        },
+        "authenticity_score": 0.31900649720594565,
+        "reason": "Failed screen check"
+      },
+      {
+        "path": "test_images\\WIN_20250911_18_07_30_Pro.jpg",
+        "filename": "WIN_20250911_18_07_30_Pro.jpg",
+        "is_valid": false,
+        "checks": {
+          "screen_detection": {
+            "is_screen": true,
+            "confidence": 1.0,
+            "pattern_score": 0.0010001627604166667,
+            "rectangular_edges": 57,
+            "reflection_score": 0.5493299696180556
+          },
+          "manipulation_detection": {
+            "is_manipulated": true,
+            "confidence": 1.0,
+            "ela_score": 1.0073680736400463,
+            "noise_consistency": -0.14998227277376608,
+            "copy_paste_score": 1.0
+          },
+          "content_validation": {
+            "is_ecosystem": false,
+            "ecosystem_confidence": 0.2640934787326389,
+            "vegetation_percentage": 0.00011203342013888889,
+            "water_percentage": 2.251519097222222e-05,
+            "sand_percentage": 0.1599758572048611,
+            "has_faces": false,
+            "has_text": true,
+            "is_indoor": true
+          },
+          "quality_check": {
+            "quality_score": 0.9411155346914644,
+            "resolution": [
+              2560,
+              1440
+            ],
+            "resolution_ok": true,
+            "is_blurry": false,
+            "blur_score": 1.0,
+            "is_dark": false,
+            "brightness_score": 0.7644621387658573,
+            "contrast_score": 1.0
+          },
+          "metadata_check": {
+            "validity_score": 0.7,
+            "checks": {
+              "has_exif": true,
+              "has_camera_info": true,
+              "has_timestamp": true,
+              "has_gps": false,
+              "timestamp_recent": false
+            }
+          },
+          "duplicate_check": {
+            "is_duplicate": false,
+            "hash": "1111100001111100"
+          }
+        },
+        "scores": {
+          "screen_score": 0.0,
+          "manipulation_score": 0.0,
+          "content_score": 0.2640934787326389,
+          "quality_score": 0.9411155346914644,
+          "metadata_score": 0.7
+        },
+        "metadata": {
+          "has_exif": true,
+          "camera_make": "Intel Corporation",
+          "camera_model": "HI556",
+          "datetime": "2025:09:11 18:07:31",
+          "gps_latitude": null,
+          "gps_longitude": null,
+          "file_size": 1198985
+        },
+        "authenticity_score": 0.2989860259502474,
+        "reason": "Failed screen check"
+      }
+    ]
+  },
+  "timestamp": "2025-09-26T17:07:57.157892"
+}
